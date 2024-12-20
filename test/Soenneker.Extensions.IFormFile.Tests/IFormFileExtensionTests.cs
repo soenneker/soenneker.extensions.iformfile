@@ -1,14 +1,13 @@
-using Soenneker.Tests.FixturedUnit;
+using Soenneker.Tests.Unit;
 using Xunit;
-
 
 namespace Soenneker.Extensions.IFormFile.Tests;
 
-[Collection("Collection")]
-// ReSharper disable once InconsistentNaming
-public class IFormFileExtensionTests : FixturedUnitTest
+public class IFormFileExtensionTests : UnitTest
 {
-    public IFormFileExtensionTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    [Fact]
+    public void Default()
     {
+
     }
 }
