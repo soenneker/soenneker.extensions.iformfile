@@ -44,6 +44,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Soenneker.Extensions.Stream" Version="3.0.53" />
+      <PackageReference Include="Soenneker.Extensions.Stream" Version="3.0.54" />
     </ItemGroup>
 </Project>
