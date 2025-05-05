@@ -1,4 +1,4 @@
-# Contributing to Soenneker.Extensions.IFormFile
+﻿# Contributing to Soenneker.Extensions.IFormFile
 
 We're excited that you're interested in contributing!
 
