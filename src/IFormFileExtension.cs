@@ -27,7 +27,11 @@ public static class IFormFileExtension
     /// </remarks>
     public static async ValueTask<MemoryStream> ToMemoryStream(this Microsoft.AspNetCore.Http.IFormFile formFile, CancellationToken cancellationToken = default)
     {
-        var memoryStream = new MemoryStream();
+        // Pre-size when possible to avoid repeated growth/copies.
+        MemoryStream memoryStream = formFile.Length is > 0 and <= int.MaxValue
+            ? new MemoryStream((int)formFile.Length)
+            : new MemoryStream();
+
         await formFile.CopyToAsync(memoryStream, cancellationToken)
                       .NoSync();
         memoryStream.ToStart();
