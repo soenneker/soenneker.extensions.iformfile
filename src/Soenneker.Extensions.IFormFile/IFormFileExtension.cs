@@ -12,6 +12,9 @@ namespace Soenneker.Extensions.IFormFile;
 /// A collection of helpful IFormFile extension methods
 /// </summary>
 // ReSharper disable once InconsistentNaming
+/// <summary>
+/// Represents the i form file extension.
+/// </summary>
 public static class IFormFileExtension
 {
     /// <summary>
