@@ -4,10 +4,23 @@
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.extensions.iformfile/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.extensions.iformfile/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Extensions.IFormFile
-### A collection of helpful IFormFile extension methods
+A collection of helpful IFormFile extension methods.
 
 ## Installation
 
-```
+```bash
 dotnet add package Soenneker.Extensions.IFormFile
 ```
+
+## Quick start
+
+```csharp
+using Soenneker.Extensions.IFormFile;
+
+// Given an existing Microsoft.AspNetCore.Http.IFormFile named formFile:
+var result = formFile.ToMemoryStream();
+```
+
+## Common operations
+
+- `ToMemoryStream()` - Converts an `Microsoft.AspNetCore.Http.IFormFile` to a `MemoryStream`. Returns a `MemoryStream` containing the contents of the form file.
