@@ -4,7 +4,7 @@
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.extensions.iformfile/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.extensions.iformfile/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Extensions.IFormFile
-A collection of helpful IFormFile extension methods.
+Copies an ASP.NET Core uploaded file into a seekable `MemoryStream` ready to read.
 
 ## Installation
 
@@ -12,15 +12,15 @@ A collection of helpful IFormFile extension methods.
 dotnet add package Soenneker.Extensions.IFormFile
 ```
 
-## Quick start
+## Usage
 
 ```csharp
 using Soenneker.Extensions.IFormFile;
 
-// Given an existing Microsoft.AspNetCore.Http.IFormFile named formFile:
-var result = formFile.ToMemoryStream();
+await using MemoryStream stream = await formFile.ToMemoryStream(cancellationToken);
+// stream.Position == 0
 ```
 
-## Common operations
+Both overloads copy the entire file and reset the returned stream to position zero. The default overload pre-sizes a normal `MemoryStream` when the file length fits in an `int`. The overload accepting `IMemoryStreamUtil` obtains a recyclable stream from that provider, which is preferable for repeated or larger uploads.
 
-- `ToMemoryStream()` - Converts an `Microsoft.AspNetCore.Http.IFormFile` to a `MemoryStream`. Returns a `MemoryStream` containing the contents of the form file.
+The caller owns the returned stream and must dispose it. Cancellation and copy failures propagate; the input file must be non-null.
