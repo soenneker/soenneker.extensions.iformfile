@@ -42,16 +42,14 @@ public static class IFormFileExtension
     }
 
     /// <summary>
-    /// Asynchronously copies the contents of the specified form file to a new memory stream using the provided memory
-    /// stream utility.
+    /// Copies an uploaded form file into a recyclable memory stream positioned for reading.
     /// </summary>
+    /// <param name="formFile">The uploaded file to copy.</param>
+    /// <param name="memoryStreamUtil">The recyclable-memory-stream provider.</param>
+    /// <param name="cancellationToken">Signals that the asynchronous operation should stop.</param>
+    /// <returns>A readable memory stream containing the uploaded bytes.</returns>
     /// <remarks>The returned memory stream's position is set to 0. The caller is responsible for disposing
     /// the returned stream when it is no longer needed.</remarks>
-    /// <param name="formFile">The form file whose contents will be copied to the memory stream. Cannot be null.</param>
-    /// <param name="memoryStreamUtil">An implementation of a memory stream utility used to obtain the target memory stream. Cannot be null.</param>
-    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
-    /// <returns>A task that represents the asynchronous operation. The result contains a memory stream with the form file's
-    /// contents, positioned at the beginning.</returns>
     public static async ValueTask<MemoryStream> ToMemoryStream(this Microsoft.AspNetCore.Http.IFormFile formFile, IMemoryStreamUtil memoryStreamUtil,
         CancellationToken cancellationToken = default)
     {
