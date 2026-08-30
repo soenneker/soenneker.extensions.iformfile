@@ -8,12 +8,9 @@ using Soenneker.Utils.MemoryStream.Abstract;
 
 namespace Soenneker.Extensions.IFormFile;
 
-/// <summary>
-/// A collection of helpful IFormFile extension methods
-/// </summary>
 // ReSharper disable once InconsistentNaming
 /// <summary>
-/// Represents the i form file extension.
+/// Provides memory-stream conversion for uploaded form files.
 /// </summary>
 public static class IFormFileExtension
 {
@@ -35,10 +32,18 @@ public static class IFormFileExtension
             ? new MemoryStream((int)formFile.Length)
             : new MemoryStream();
 
-        await formFile.CopyToAsync(memoryStream, cancellationToken)
-                      .NoSync();
-        memoryStream.ToStart();
-        return memoryStream;
+        try
+        {
+            await formFile.CopyToAsync(memoryStream, cancellationToken)
+                          .NoSync();
+            memoryStream.ToStart();
+            return memoryStream;
+        }
+        catch
+        {
+            await memoryStream.DisposeAsync();
+            throw;
+        }
     }
 
     /// <summary>
@@ -56,10 +61,21 @@ public static class IFormFileExtension
         MemoryStream stream = await memoryStreamUtil.Get(cancellationToken)
                                                     .NoSync();
 
-        await formFile.CopyToAsync(stream, cancellationToken)
-                      .NoSync();
+        try
+        {
+            stream.SetLength(0);
+            stream.Position = 0;
 
-        stream.Position = 0;
-        return stream;
+            await formFile.CopyToAsync(stream, cancellationToken)
+                          .NoSync();
+
+            stream.Position = 0;
+            return stream;
+        }
+        catch
+        {
+            await stream.DisposeAsync();
+            throw;
+        }
     }
 }
